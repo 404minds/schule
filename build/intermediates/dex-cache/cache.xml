@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/apple/Sites/FindnSecure/My-class/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="24.0.0"
+        sha1="f0884652b84243d1bea3f98c5f260bff06996260">
+        <dex dex="/Users/apple/Sites/FindnSecure/My-class/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_3af124a4701009b1893452b9e3086cb63858c476/classes.dex" />
+    </item>
+
+</items>
