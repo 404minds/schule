@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.a404minds.rinki.schule.LoginActivity" />
-        <activity android:name="com.a404minds.rinki.schule.DashboardActivity" />
+        <activity android:name="com.a404minds.rinki.schule.ForgotPasswordActivity" />
+        <activity android:name=".ClassListActivity" />
         <activity
             android:name="com.a404minds.rinki.schule.StudentListActivity"
             android:label="@string/app_student_list" />

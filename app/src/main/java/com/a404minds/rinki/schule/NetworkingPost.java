@@ -67,7 +67,7 @@ public class NetworkingPost extends AsyncTask<String, Integer, String> {
             }
             in.close();
             responseData.put("code",Integer.toString(responseCode));
-            responseData.put("data",response.toString());
+            responseData.put("data", response.toString());
 
         } catch (IOException e) {
             Log.e("PlaceholderFragment", "Error ", e);

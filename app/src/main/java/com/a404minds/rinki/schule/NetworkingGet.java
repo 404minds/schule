@@ -38,10 +38,13 @@ public class NetworkingGet extends AsyncTask<String, Void, String> {
             SharedPrefs sharedPrefs = new SharedPrefs(this.context);
             String token = sharedPrefs.getPrefs("Auth_file", "token");
 
+            System.out.println(token);
+            Log.e("Token", token);
+
             // Create the request to API, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
-            urlConnection.setRequestProperty ("Authorization", "Bearer " + token);
+            urlConnection.setRequestProperty("Authorization", "Bearer " + token);
             urlConnection.connect();
             responseCode = urlConnection.getResponseCode();
 
@@ -55,8 +58,8 @@ public class NetworkingGet extends AsyncTask<String, Void, String> {
                 response.append(inputLine);
             }
             in.close();
-            responseData.put("code",Integer.toString(responseCode));
-            responseData.put("data",response.toString());
+            responseData.put("code", Integer.toString(responseCode));
+            responseData.put("data", response.toString());
 
         }   catch (IOException e) {
              Log.e("PlaceholderFragment", "Error ", e);

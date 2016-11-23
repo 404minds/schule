@@ -18,23 +18,20 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by rinki on 22/11/16.
  */
-public class LoginActivity extends AppCompatActivity{
+public class ForgotPasswordActivity extends AppCompatActivity {
     Button b1;
     EditText ed1, ed2;
-    TextView forgotPassword;
+    TextView signin;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getSupportActionBar().hide();
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
+        setContentView(R.layout.forgot_password_layout);
 
-        b1 = (Button) findViewById(R.id.button);
-        ed1 = (EditText) findViewById(R.id.text1);
+        b1 = (Button) findViewById(R.id.button1);
+        ed1 = (EditText) findViewById(R.id.username_email1);
         ed2 = (EditText) findViewById(R.id.text2);
-        forgotPassword = (TextView) findViewById(R.id.link_forgot_password);
+        signin = (TextView) findViewById(R.id.link_signin);
 
 
         b1.setOnClickListener(new View.OnClickListener() {
@@ -58,11 +55,11 @@ public class LoginActivity extends AppCompatActivity{
                         Log.e("Response Code",responseData.getString("code"));
                         Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
                     } else if (responseData.getString("code").equals("200")) {
-                        SharedPrefs sharedActivity = new SharedPrefs(LoginActivity.this);
+                        SharedPrefs sharedActivity = new SharedPrefs(ForgotPasswordActivity.this);
                         sharedActivity.putPrefs("Auth_file", "token", responseData.getString("data"));
 
                         Intent i=new Intent(
-                                LoginActivity.this,
+                                ForgotPasswordActivity.this,
                                 ClassListActivity.class);
                         startActivity(i);
 
@@ -78,13 +75,13 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
 
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
+        signin.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 Intent i=new Intent(
-                        LoginActivity.this,
-                        ForgotPasswordActivity.class);
+                        ForgotPasswordActivity.this,
+                        LoginActivity.class);
                 startActivity(i);
             }
         });

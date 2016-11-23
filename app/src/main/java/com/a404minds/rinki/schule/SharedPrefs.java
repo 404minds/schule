@@ -18,9 +18,9 @@ public class SharedPrefs {
     public String getPrefs(String PREFS_NAME, String key ) {
 
         SharedPreferences sharedPref = this.context.getSharedPreferences(PREFS_NAME,Context.MODE_PRIVATE);
-        String silent = sharedPref.getString(key, "default");
+        String silent = sharedPref.getString(key, "");
 
-        return silent;
+        return String.valueOf(silent);
     }
 
     public void putPrefs(String PREFS_NAME, String key, String value) {
