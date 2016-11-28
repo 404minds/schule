@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -45,6 +47,7 @@ public class StudentListActivity extends AppCompatActivity {
         setSupportActionBar(studentToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         try {
             SharedPrefs sharedPrefs = new SharedPrefs(this.context);
             String classid = sharedPrefs.getPrefs("class_detail_file", "class_id");
@@ -71,6 +74,16 @@ public class StudentListActivity extends AppCompatActivity {
             itemAnimator.setAddDuration(1000);
             itemAnimator.setRemoveDuration(1000);
             recyclerView.setItemAnimator(itemAnimator);
+
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Click action
+                    Intent intent = new Intent(StudentListActivity.this, ClassListActivity.class);
+                    startActivity(intent);
+                }
+            });
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
