@@ -10,4 +10,18 @@
     <color name="black">#000000</color>
     <color name="buttonColor">#ff6e40</color>
     <color name="editTextColor">#ffffff</color>
+    <color name="profile_pink">#f06292</color>
+    <color name="profile_blue">#64b5f6</color>
+    <color name="profile_yellow">#ffb74d</color>
+    <color name="profile_green">#4db6ac</color>
+    <color name="profile_red">#e57373</color>
+
+
+    <integer-array name="androidcolors">
+        <item>@color/profile_pink</item>
+        <item>@color/profile_blue</item>
+        <item>@color/profile_yellow</item>
+        <item>@color/profile_red</item>
+        <item>@color/profile_green</item>
+    </integer-array>
 </resources>

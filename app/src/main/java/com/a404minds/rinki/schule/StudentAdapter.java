@@ -1,9 +1,12 @@
 package com.a404minds.rinki.schule;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +23,7 @@ import org.json.JSONObject;
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHolder> {
     private JSONArray mDataset;
     private Context context;
+    Random rnd;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -28,12 +32,14 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         // each data item is just a string in this case
         public TextView txtHeader;
         public TextView txtFooter;
+        public TextView icon;
         public RelativeLayout relayout;
 
         public ViewHolder(View v) {
             super(v);
             txtHeader = (TextView) v.findViewById(R.id.studentNameTextView);
             txtFooter = (TextView) v.findViewById(R.id.status);
+            icon = (TextView) v.findViewById(R.id.icon);
             relayout = (RelativeLayout) v.findViewById(R.id.relative_layout);
             context = itemView.getContext();
         }
@@ -70,6 +76,15 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
             e.printStackTrace();
         }
 //        holder.txtFooter.setText("Footer: " + mDataset.get(position));
+        rnd = new Random();
+        int[] androidColors = context.getResources().getIntArray(R.array.androidcolors);
+        int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
+
+        holder.icon.setBackgroundResource(R.drawable.circle);
+
+        GradientDrawable drawable = (GradientDrawable) holder.icon.getBackground();
+
+        drawable.setColor(randomAndroidColor);
 
     }
 

@@ -13,7 +13,7 @@
         android:layout_marginLeft="16dip"
         android:contentDescription="TODO"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/circle"
+
         android:layout_alignWithParentIfMissing="false"
         android:text="1"
         android:textColor="@color/white"
