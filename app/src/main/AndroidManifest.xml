@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.a404minds.rinki.schule">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-sdk tools:overrideLibrary="com.daprlabs.aaron.swipedeck"/>
 
     <application
         android:allowBackup="true"
@@ -24,6 +25,9 @@
             android:label="@string/class_title"/>
         <activity
             android:name="com.a404minds.rinki.schule.StudentListActivity"
+            android:label="@string/student_title" />
+        <activity
+            android:name="com.a404minds.rinki.schule.AttendanceActivity"
             android:label="@string/student_title" />
     </application>
 

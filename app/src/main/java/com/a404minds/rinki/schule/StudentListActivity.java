@@ -1,5 +1,5 @@
 package com.a404minds.rinki.schule;
-
+import com.daprlabs.aaron.swipedeck.SwipeDeck;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -80,7 +80,7 @@ public class StudentListActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     // Click action
-                    Intent intent = new Intent(StudentListActivity.this, ClassListActivity.class);
+                    Intent intent = new Intent(StudentListActivity.this, AttendanceActivity.class);
                     startActivity(intent);
                 }
             });
