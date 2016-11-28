@@ -38,9 +38,6 @@ public class NetworkingGet extends AsyncTask<String, Void, String> {
             SharedPrefs sharedPrefs = new SharedPrefs(this.context);
             String token = sharedPrefs.getPrefs("Auth_file", "token");
 
-            System.out.println(token);
-            Log.e("Token", token);
-
             // Create the request to API, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");

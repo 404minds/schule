@@ -17,7 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHolder> {
+public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> {
     private JSONArray mDataset;
     private Context context;
 
@@ -32,24 +32,35 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
 
         public ViewHolder(View v) {
             super(v);
-            txtHeader = (TextView) v.findViewById(R.id.studentNameTextView);
-            txtFooter = (TextView) v.findViewById(R.id.status);
+            txtHeader = (TextView) v.findViewById(R.id.firstLine);
+            txtFooter = (TextView) v.findViewById(R.id.secondLine);
             relayout = (RelativeLayout) v.findViewById(R.id.relative_layout);
             context = itemView.getContext();
         }
     }
 
+//    public void add(int position, String item) {
+//        mDataset.add(position, item);
+//        notifyItemInserted(position);
+//    }
+//
+//    public void remove(String item) {
+//        int position = mDataset.indexOf(item);
+//        mDataset.remove(position);
+//        notifyItemRemoved(position);
+//    }
+
     // Provide a suitable constructor (depends on the kind of dataset)
-    public StudentAdapter(JSONArray myDataset) {
+    public ClassAdapter(JSONArray myDataset) {
         mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public StudentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public ClassAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                       int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_text_view, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.class_view, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -61,11 +72,23 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         try {
-            Log.e("dataset", mDataset.toString());
-            JSONObject classStudent = mDataset.getJSONObject(position);
-            JSONObject student = classStudent.getJSONObject("student");
-            Log.e("student name",student.getString("name"));
-            holder.txtHeader.setText(student.getString("name"));
+            final JSONObject classObj = mDataset.getJSONObject(position);
+            holder.txtHeader.setText(classObj.getString("specialization") + " " + classObj.getString("batch") + " " + classObj.getString("section"));
+            holder.relayout.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        SharedPrefs sharedActivity = new SharedPrefs(context);
+                        sharedActivity.putPrefs("class_detail_file", "class_id", classObj.getString("_id"));
+                        Intent i=new Intent(
+                                context,
+                                StudentListActivity.class);
+                        context.startActivity(i);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -80,3 +103,4 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
     }
 
 }
+

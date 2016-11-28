@@ -20,10 +20,11 @@
         </activity>
         <activity android:name="com.a404minds.rinki.schule.LoginActivity" />
         <activity android:name="com.a404minds.rinki.schule.ForgotPasswordActivity" />
-        <activity android:name=".ClassListActivity" />
+        <activity android:name=".ClassListActivity"
+            android:label="@string/class_title"/>
         <activity
             android:name="com.a404minds.rinki.schule.StudentListActivity"
-            android:label="@string/app_student_list" />
+            android:label="@string/student_title" />
     </application>
 
 </manifest>

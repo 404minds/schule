@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 
 import org.json.JSONArray;
@@ -28,11 +29,14 @@ public class StudentListActivity extends Activity {
         setContentView(R.layout.student_list);
 
         try {
-            String responseStr = new NetworkingGet(StudentListActivity.this).execute("/student").get();
+            SharedPrefs sharedPrefs = new SharedPrefs(this.context);
+            String classid = sharedPrefs.getPrefs("class_detail_file", "class_id");
+
+            String responseStr = new NetworkingGet(StudentListActivity.this).execute("/classes/"+classid.toString()+"/students").get();
             JSONObject responseData = new JSONObject(responseStr);
 
-            JSONArray students = new JSONArray(responseData.getString("data"));
 
+            JSONArray students = new JSONArray(responseData.getString("data"));
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
             // use this setting to improve performance if you know that changes
@@ -50,8 +54,6 @@ public class StudentListActivity extends Activity {
             itemAnimator.setAddDuration(1000);
             itemAnimator.setRemoveDuration(1000);
             recyclerView.setItemAnimator(itemAnimator);
-
-            System.out.println(responseStr);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

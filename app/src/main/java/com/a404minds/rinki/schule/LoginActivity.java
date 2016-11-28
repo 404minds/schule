@@ -1,10 +1,14 @@
 package com.a404minds.rinki.schule;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,9 +30,15 @@ public class LoginActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getSupportActionBar().hide();
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
+//        getSupportActionBar().hide();
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Window window = LoginActivity.this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        if (Build.VERSION.SDK_INT >= 21) {
+            window.setStatusBarColor(ContextCompat.getColor(LoginActivity.this, R.color.colorStatusBar));
+        }
         setContentView(R.layout.activity_main);
 
         b1 = (Button) findViewById(R.id.button);
@@ -55,7 +65,6 @@ public class LoginActivity extends AppCompatActivity{
                     JSONObject responseData = new JSONObject(responseStr);
 
                     if (responseData.getString("code").equals("401")) {
-                        Log.e("Response Code",responseData.getString("code"));
                         Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
                     } else if (responseData.getString("code").equals("200")) {
                         SharedPrefs sharedActivity = new SharedPrefs(LoginActivity.this);

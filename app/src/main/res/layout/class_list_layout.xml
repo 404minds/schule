@@ -7,11 +7,19 @@
     tools:context=".ClassListActivity" >
     <!-- A RecyclerView with some commonly used attributes -->
 
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        ></include>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/class_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_below="@+id/tool_bar" />
 
     <!--<ImageView-->
         <!--android:id="@+id/imageView1"-->
