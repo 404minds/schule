@@ -5,11 +5,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -18,10 +15,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.support.v7.widget.Toolbar;
 import java.util.concurrent.ExecutionException;
-import android.view.View;
-import android.view.MenuInflater;
+
 import android.view.Menu;
-import android.widget.Toast;
+
 /**
  * Created by rinki on 14/11/16.
  */
@@ -44,7 +40,7 @@ public class ClassListActivity extends AppCompatActivity {
         setContentView(R.layout.class_list_layout);
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
-        getSupportActionBar().setIcon(R.drawable.actionbar_space_between_icon_and_title);
+        getSupportActionBar().setIcon(R.drawable.menu_white);
 
 
         String responseStr = null;
