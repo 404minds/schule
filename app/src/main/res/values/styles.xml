@@ -25,5 +25,9 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="BorderlessButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">#ff6e40</item>
+    </style>
+
 </resources>
 

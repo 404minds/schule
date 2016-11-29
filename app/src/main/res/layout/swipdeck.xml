@@ -2,29 +2,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
-    android:layout_gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="4dp"
+    card_view:cardElevation="2dp"
+    card_view:cardMaxElevation="8dp"
     card_view:cardUseCompatPadding="true"
     android:layout_margin="8dp"
-    android:gravity="center_horizontal"
-    android:padding="25dp">
+    android:padding="25dp"
+    tools:context=".AttendanceActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:baselineAligned="false">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
-                tools:src="@mipmap/ic_launcher"
+                android:src="@drawable/image"
                 android:id="@+id/offer_image"
                 android:layout_width="match_parent"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
-                android:layout_height="200dp" />
+                android:layout_height="wrap_content" />
         </RelativeLayout>
 
         <LinearLayout
@@ -49,13 +52,72 @@
                 android:layout_below="@+id/offer_image"
                 android:layout_centerHorizontal="true" />
         </LinearLayout>
-        <TextView
-            android:id="@+id/sample_text"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sample Text"
-            android:gravity="center_horizontal"
-            android:textSize="20dp" />
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/student_name_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Neha Agarwal"
+                android:gravity="left|center_horizontal"
+                android:textSize="24dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/student_rollno"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="3466788"
+                android:textSize="14dp"
+                android:gravity="left|center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Absent"
+                android:id="@+id/button_absent"
+                android:theme="@style/BorderlessButton"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_gravity="center_vertical"
+                android:textSize="14dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Present"
+                android:id="@+id/button_present"
+                android:theme="@style/BorderlessButton"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>
