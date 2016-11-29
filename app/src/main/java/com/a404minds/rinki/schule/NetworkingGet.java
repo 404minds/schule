@@ -33,7 +33,7 @@ public class NetworkingGet extends AsyncTask<String, Void, String> {
 
         try {
             // Construct the URL
-            URL url = new URL("http://10.0.2.2:3030/api" + data[0]);
+            URL url = new URL("https://schule-dev.herokuapp.com/api" + data[0]);
 
             SharedPrefs sharedPrefs = new SharedPrefs(this.context);
             String token = sharedPrefs.getPrefs("Auth_file", "token");

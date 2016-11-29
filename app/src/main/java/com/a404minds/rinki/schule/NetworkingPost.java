@@ -34,7 +34,7 @@ public class NetworkingPost extends AsyncTask<String, Integer, String> {
 
         try {
             // Construct the URL
-            URL url = new URL("http://10.0.2.2:3030/api" + data[0]);
+            URL url = new URL("http://schule-dev.herokuapp.com/api" + data[0]);
 
             // Create the request to API, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -68,6 +68,7 @@ public class NetworkingPost extends AsyncTask<String, Integer, String> {
             in.close();
             responseData.put("code",Integer.toString(responseCode));
             responseData.put("data", response.toString());
+            Log.e("Response", responseData.toString());
 
         } catch (IOException e) {
             Log.e("PlaceholderFragment", "Error ", e);

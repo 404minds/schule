@@ -51,7 +51,8 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:textColorHint="@color/editTextColor"
-            app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+            app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
+            android:focusableInTouchMode="false">
             <EditText android:id="@+id/text2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
