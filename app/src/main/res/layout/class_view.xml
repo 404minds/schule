@@ -7,7 +7,7 @@
     android:paddingTop="20dip"
     android:paddingRight="16dip"
     android:paddingBottom="20dip"
-    android:background="@drawable/border">
+    android:background="@drawable/border_bottom">
 
     <!---->
 
@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:textColor="@color/black54"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:text="Description"
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/secondLine"
         android:layout_alignParentRight="true"
+        android:textColor="@color/black87"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
         android:gravity="center_vertical"

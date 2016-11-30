@@ -71,20 +71,31 @@ public class AttendanceActivity extends AppCompatActivity {
             cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
                 @Override
                 public void cardSwipedLeft(long stableId) {
-//                    students.get(stableId)
-                    //markAttendance(finalStudent.getString("_id").toString(), 2);
-                    Log.i("Attendance", "card was swiped left, position in adapter: " + stableId);
+                    JSONObject classStudent = null;
+                    try {
+                        classStudent = students.getJSONObject((int)stableId);
+                        JSONObject student = classStudent.getJSONObject("student");
+                        markAttendance(student.getString("_id").toString(), 2);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
                 public void cardSwipedRight(long stableId) {
-                    Log.i("Attendance", "card was swiped right, position in adapter: " + stableId);
-
+                    JSONObject classStudent = null;
+                    try {
+                        classStudent = students.getJSONObject((int)stableId);
+                        JSONObject student = classStudent.getJSONObject("student");
+                        markAttendance(student.getString("_id").toString(), 1);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
-            cardStack.setLeftImage(R.id.left_image);
-            cardStack.setRightImage(R.id.right_image);
+            cardStack.setLeftImage(R.id.right_image);
+            cardStack.setRightImage(R.id.left_image);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -95,7 +106,22 @@ public class AttendanceActivity extends AppCompatActivity {
 
     }
 
-
+    public void markAttendance(String student, int presence) {
+        JSONObject studentAttendance = new JSONObject();
+        String responseStr = null;
+        try {
+            studentAttendance.put("student", student);
+            studentAttendance.put("status", presence);
+            responseStr = new NetworkingPost().execute("/attendence", studentAttendance.toString()).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("responseData", responseStr);
+    }
 
     public class SwipeDeckAdapter extends BaseAdapter {
 
@@ -140,13 +166,15 @@ public class AttendanceActivity extends AppCompatActivity {
             JSONObject student = null;
             TextView studentName;
             TextView studentRollNo;
+            ImageView imageView;
 
             try {
                 JSONObject classStudent = data.getJSONObject(position);
                 student = classStudent.getJSONObject("student");
-                ImageView imageView = (ImageView) v.findViewById(R.id.offer_image);
+                imageView = (ImageView) v.findViewById(R.id.offer_image);
                 studentName = (TextView) v.findViewById(R.id.student_name_text);
                 studentRollNo = (TextView) v.findViewById(R.id.student_rollno);
+                imageView.setBackgroundResource(R.drawable.circular_image);
                 studentName.setText(student.getString("name"));
                 studentRollNo.setText(student.getString("roll_no"));
             } catch (JSONException e) {
@@ -159,11 +187,11 @@ public class AttendanceActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     // Do something in response to button click
                     cardStack.swipeTopCardLeft(500);
-                    try {
-                        markAttendance(finalStudent.getString("_id").toString(), 2);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        markAttendance(finalStudent.getString("_id").toString(), 2);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             });
 
@@ -190,23 +218,6 @@ public class AttendanceActivity extends AppCompatActivity {
                 }
             });
             return v;
-        }
-
-        public void markAttendance(String student, int presence) {
-            JSONObject studentAttendance = new JSONObject();
-            String responseStr = null;
-            try {
-                studentAttendance.put("student", student);
-                studentAttendance.put("status", presence);
-                responseStr = new NetworkingPost().execute("/attendence", studentAttendance.toString()).get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Log.e("responseData", responseStr);
         }
     }
 }

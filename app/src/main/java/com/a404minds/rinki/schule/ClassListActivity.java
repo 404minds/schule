@@ -27,7 +27,8 @@ public class ClassListActivity extends AppCompatActivity {
     Context context = this;
     public static RecyclerView.Adapter adapter;
     private Toolbar toolbar;
-    //public SwipeRefreshLayout mSwipeRefreshLayout;
+//    public SwipeRefreshLayout mSwipeRefreshLayout;
+    String responseStr = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class ClassListActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.drawable.menu_white);
 
 
-        String responseStr = null;
+
         try {
             responseStr = new NetworkingGet(ClassListActivity.this).execute("/classes").get();
             JSONObject responseData = new JSONObject(responseStr);
@@ -70,6 +71,28 @@ public class ClassListActivity extends AppCompatActivity {
 //                @Override
 //                public void onRefresh() {
 //                    // Refresh items
+//                    try {
+//                        responseStr = new NetworkingGet(ClassListActivity.this).execute("/classes").get();
+//                        JSONObject responseData = new JSONObject(responseStr);
+//                        JSONArray classes = new JSONArray(responseData.getString("data"));
+//
+//                        RecyclerView recyclerView1 = (RecyclerView) findViewById(R.id.class_recycler_view);
+//
+//                        recyclerView1.setHasFixedSize(true);
+//                        // use a linear layout manager
+//                        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+//                        recyclerView1.setLayoutManager(mLayoutManager);
+//
+//                        // specify an adapter (see also next example)
+//                        adapter = new ClassAdapter(classes);
+//                        recyclerView1.setAdapter(adapter);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    } catch (ExecutionException e) {
+//                        e.printStackTrace();
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
 //                }
 //            });
 

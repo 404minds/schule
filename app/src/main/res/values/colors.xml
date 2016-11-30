@@ -8,6 +8,9 @@
     <color name="main_color">#ff6e40</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="black87">#87000000</color>
+    <color name="black54">#54000000</color>
+    <color name="divider">#12000000</color>
     <color name="buttonColor">#ff6e40</color>
     <color name="editTextColor">#ffffff</color>
     <color name="profile_pink">#f06292</color>

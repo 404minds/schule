@@ -64,24 +64,23 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         try {
-            Log.e("dataset", mDataset.toString());
+
             JSONObject classStudent = mDataset.getJSONObject(position);
             JSONObject student = classStudent.getJSONObject("student");
-            Log.e("student name",student.getString("name"));
             holder.txtHeader.setText(student.getString("name"));
+            holder.txtFooter.setText("Roll No - "+ student.getString("roll_no"));
+            rnd = new Random();
+            int[] androidColors = context.getResources().getIntArray(R.array.androidcolors);
+            int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
+            holder.icon.setBackgroundResource(R.drawable.circle);
+            holder.icon.setText(student.getString("roll_no"));
+
+            GradientDrawable drawable = (GradientDrawable) holder.icon.getBackground();
+
+            drawable.setColor(randomAndroidColor);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-//        holder.txtFooter.setText("Footer: " + mDataset.get(position));
-        rnd = new Random();
-        int[] androidColors = context.getResources().getIntArray(R.array.androidcolors);
-        int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
-
-        holder.icon.setBackgroundResource(R.drawable.circle);
-
-        GradientDrawable drawable = (GradientDrawable) holder.icon.getBackground();
-
-        drawable.setColor(randomAndroidColor);
 
     }
 
