@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ public class ClassListActivity extends AppCompatActivity {
     Context context = this;
     public static RecyclerView.Adapter adapter;
     private Toolbar toolbar;
+    //public SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,13 @@ public class ClassListActivity extends AppCompatActivity {
 //            itemAnimator.setAddDuration(1000);
 //            itemAnimator.setRemoveDuration(1000);
 //            recyclerView1.setItemAnimator(itemAnimator);
+
+//            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//                @Override
+//                public void onRefresh() {
+//                    // Refresh items
+//                }
+//            });
 
         } catch (InterruptedException e) {
             e.printStackTrace();

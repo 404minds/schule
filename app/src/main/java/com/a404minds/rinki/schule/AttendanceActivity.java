@@ -21,8 +21,13 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class AttendanceActivity extends AppCompatActivity {
 
@@ -50,72 +55,71 @@ public class AttendanceActivity extends AppCompatActivity {
         attendanceToolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(attendanceToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        cardStack = (SwipeDeck) findViewById(R.id.swipe_deck);
+        String classid= getIntent().getStringExtra("EXTRA_SESSION_ID");
+        String responseStr = null;
+        try {
+            responseStr = new NetworkingGet(AttendanceActivity.this).execute("/classes/"+classid.toString()+"/students").get();
+            JSONObject responseData = new JSONObject(responseStr);
+            final JSONArray students = new JSONArray(responseData.getString("data"));
+            cardStack = (SwipeDeck) findViewById(R.id.swipe_deck);
 
-        testData = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            testData.add(String.valueOf(i));
-        }
 
-        adapter = new SwipeDeckAdapter(testData, this);
-        if(cardStack != null){
-            cardStack.setAdapter(adapter);
-        }
-        cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
-            @Override
-            public void cardSwipedLeft(long stableId) {
-                Log.i("Attendance", "card was swiped left, position in adapter: " + stableId);
+            adapter = new SwipeDeckAdapter(students, this);
+            if(cardStack != null){
+                cardStack.setAdapter(adapter);
             }
+            cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
+                @Override
+                public void cardSwipedLeft(long stableId) {
+//                    students.get(stableId)
+                    //markAttendance(finalStudent.getString("_id").toString(), 2);
+                    Log.i("Attendance", "card was swiped left, position in adapter: " + stableId);
+                }
 
-            @Override
-            public void cardSwipedRight(long stableId) {
-                Log.i("Attendance", "card was swiped right, position in adapter: " + stableId);
+                @Override
+                public void cardSwipedRight(long stableId) {
+                    Log.i("Attendance", "card was swiped right, position in adapter: " + stableId);
 
-            }
-        });
+                }
+            });
 
-        cardStack.setLeftImage(R.id.left_image);
-        cardStack.setRightImage(R.id.right_image);
-
-//        View inflatedView = getLayoutInflater().inflate(R.layout.swipdeck, null);
-//        Button btn = (Button) inflatedView.findViewById(R.id.button_absent);
-//        Button btn2 = (Button) inflatedView.findViewById(R.id.button_present);
-
-//        btn.setOnClickListener(new View.OnClickListener() {
-//
-//            public void onClick(View v) {
-//                System.out.print("button clicked");
-//                //cardStack.swipeTopCardLeft(500);
-//            }
-//        });
-
-//        btn2.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                cardStack.swipeTopCardRight(180);
-//            }
-//        });
-
+            cardStack.setLeftImage(R.id.left_image);
+            cardStack.setRightImage(R.id.right_image);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
+
+
     public class SwipeDeckAdapter extends BaseAdapter {
 
-        private List<String> data;
+        private JSONArray data;
         private Context context;
 
-        public SwipeDeckAdapter(List<String> data, Context context) {
+        public SwipeDeckAdapter(JSONArray data, Context context) {
             this.data = data;
             this.context = context;
         }
 
         @Override
         public int getCount() {
-            return data.size();
+            return data.length();
         }
 
         @Override
         public Object getItem(int position) {
-            return data.get(position);
+            try {
+                return data.getJSONObject(position);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return new JSONObject();
         }
 
         @Override
@@ -133,16 +137,33 @@ public class AttendanceActivity extends AppCompatActivity {
                 v = inflater.inflate(R.layout.swipdeck, parent, false);
             }
             //((TextView) v.findViewById(R.id.textView2)).setText(data.get(position));
-            ImageView imageView = (ImageView) v.findViewById(R.id.offer_image);
-            TextView textView = (TextView) v.findViewById(R.id.student_name_text);
-            String item = (String)getItem(position);
-            textView.setText(item);
+            JSONObject student = null;
+            TextView studentName;
+            TextView studentRollNo;
 
+            try {
+                JSONObject classStudent = data.getJSONObject(position);
+                student = classStudent.getJSONObject("student");
+                ImageView imageView = (ImageView) v.findViewById(R.id.offer_image);
+                studentName = (TextView) v.findViewById(R.id.student_name_text);
+                studentRollNo = (TextView) v.findViewById(R.id.student_rollno);
+                studentName.setText(student.getString("name"));
+                studentRollNo.setText(student.getString("roll_no"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            final JSONObject finalStudent = student;
             Button btnAbsent = (Button) v.findViewById(R.id.button_absent);
             btnAbsent.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     // Do something in response to button click
                     cardStack.swipeTopCardLeft(500);
+                    try {
+                        markAttendance(finalStudent.getString("_id").toString(), 2);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
@@ -151,6 +172,11 @@ public class AttendanceActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     // Do something in response to button click
                     cardStack.swipeTopCardRight(500);
+//                    try {
+//                        markAttendance(finalStudent.getString("_id").toString(), 1);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             });
 
@@ -164,6 +190,23 @@ public class AttendanceActivity extends AppCompatActivity {
                 }
             });
             return v;
+        }
+
+        public void markAttendance(String student, int presence) {
+            JSONObject studentAttendance = new JSONObject();
+            String responseStr = null;
+            try {
+                studentAttendance.put("student", student);
+                studentAttendance.put("status", presence);
+                responseStr = new NetworkingPost().execute("/attendence", studentAttendance.toString()).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.e("responseData", responseStr);
         }
     }
 }

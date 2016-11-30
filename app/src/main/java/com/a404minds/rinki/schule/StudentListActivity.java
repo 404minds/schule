@@ -50,13 +50,13 @@ public class StudentListActivity extends AppCompatActivity {
 
         try {
             SharedPrefs sharedPrefs = new SharedPrefs(this.context);
-            String classid = sharedPrefs.getPrefs("class_detail_file", "class_id");
+            final String classid = sharedPrefs.getPrefs("class_detail_file", "class_id");
 
             String responseStr = new NetworkingGet(StudentListActivity.this).execute("/classes/"+classid.toString()+"/students").get();
             JSONObject responseData = new JSONObject(responseStr);
 
 
-            JSONArray students = new JSONArray(responseData.getString("data"));
+            final JSONArray students = new JSONArray(responseData.getString("data"));
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
             // use this setting to improve performance if you know that changes
@@ -81,6 +81,7 @@ public class StudentListActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     // Click action
                     Intent intent = new Intent(StudentListActivity.this, AttendanceActivity.class);
+                    intent.putExtra("EXTRA_SESSION_ID", classid);
                     startActivity(intent);
                 }
             });

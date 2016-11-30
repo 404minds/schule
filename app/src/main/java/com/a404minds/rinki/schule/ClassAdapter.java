@@ -74,6 +74,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         try {
             final JSONObject classObj = mDataset.getJSONObject(position);
             holder.txtHeader.setText(classObj.getString("specialization") + " " + classObj.getString("batch") + " " + classObj.getString("section"));
+            holder.txtFooter.setText(classObj.getString("studentCount") + " students");
             holder.relayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -92,7 +93,6 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-//        holder.txtFooter.setText("Footer: " + mDataset.get(position));
 
     }
 
