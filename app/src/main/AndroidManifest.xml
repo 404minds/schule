@@ -12,14 +12,16 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.a404minds.rinki.schule.MainActivity">
+        <activity android:name="com.a404minds.rinki.schule.SplashActivity" android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.a404minds.rinki.schule.LoginActivity" />
+        <activity android:name="com.a404minds.rinki.schule.MainActivity" android:noHistory="true">
+        </activity>
+        <activity android:name="com.a404minds.rinki.schule.LoginActivity" android:noHistory="true"/>
         <activity android:name="com.a404minds.rinki.schule.ForgotPasswordActivity" />
         <activity android:name=".ClassListActivity"
             android:label="@string/class_title"/>

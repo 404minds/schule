@@ -28,6 +28,7 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -45,6 +46,8 @@ public class AttendanceActivity extends AppCompatActivity {
     public Toolbar attendanceToolbar;
     public Bitmap mBitmap;
     public Resources mResources;
+    public LinearLayout completeAttendance;
+    public Integer counter = 0;
 
 
     @Override
@@ -73,6 +76,8 @@ public class AttendanceActivity extends AppCompatActivity {
 
             adapter = new SwipeDeckAdapter(students, this);
             if(cardStack != null){
+                completeAttendance = (LinearLayout) findViewById(R.id.completeAttendance);
+                completeAttendance.setVisibility(View.GONE);
                 cardStack.setAdapter(adapter);
             }
             cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
@@ -110,7 +115,6 @@ public class AttendanceActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -197,6 +201,7 @@ public class AttendanceActivity extends AppCompatActivity {
                 studentRollNo = (TextView) v.findViewById(R.id.student_rollno);
                 studentName.setText(student.getString("name"));
                 studentRollNo.setText(student.getString("roll_no"));
+                counter = counter +1 ;
                 mResources = getResources();
                 mBitmap = BitmapFactory.decodeResource(mResources,R.drawable.blank_girl);
 
@@ -223,19 +228,13 @@ public class AttendanceActivity extends AppCompatActivity {
                 }
             });
 
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.i("Layer type: ", Integer.toString(v.getLayerType()));
-                    Log.i("Hardware Accel type:", Integer.toString(View.LAYER_TYPE_HARDWARE));
-                }
-            });
+            if(counter.equals(getCount())) {
+                completeAttendance.setVisibility(View.VISIBLE);
+            }
+
             return v;
 
         }
-
-
-
 
     }
 

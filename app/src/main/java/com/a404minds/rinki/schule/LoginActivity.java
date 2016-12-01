@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity{
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                b1.setText("Loading...");
                 Toast.makeText(getApplicationContext(),
                         "Redirecting...", Toast.LENGTH_SHORT).show();
                 JSONObject creds = new JSONObject();

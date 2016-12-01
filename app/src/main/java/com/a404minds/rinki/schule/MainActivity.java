@@ -17,10 +17,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //getSupportActionBar().hide();
+        first_time_check();
+    }
 
-        Intent i=new Intent(
-                MainActivity.this,
-                LoginActivity.class);
+    private void first_time_check() {
+        SharedPrefs sharedPrefs = new SharedPrefs(MainActivity.this);
+        String token = sharedPrefs.getPrefs("Auth_file", "token");
+        Intent i;
+        if((token == null)){
+            i = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(i);
+        }
+        i = new Intent(MainActivity.this, ClassListActivity.class);
         startActivity(i);
     }
 }
