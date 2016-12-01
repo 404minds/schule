@@ -10,6 +10,7 @@
     <color name="black">#000000</color>
     <color name="black87">#87000000</color>
     <color name="black54">#54000000</color>
+    <color name="black20">#20000000</color>
     <color name="divider">#12000000</color>
     <color name="buttonColor">#ff6e40</color>
     <color name="editTextColor">#ffffff</color>

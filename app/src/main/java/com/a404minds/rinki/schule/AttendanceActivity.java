@@ -195,7 +195,6 @@ public class AttendanceActivity extends AppCompatActivity {
                 imageView = (ImageView) v.findViewById(R.id.offer_image);
                 studentName = (TextView) v.findViewById(R.id.student_name_text);
                 studentRollNo = (TextView) v.findViewById(R.id.student_rollno);
-                imageView.setBackgroundResource(R.drawable.circular_image);
                 studentName.setText(student.getString("name"));
                 studentRollNo.setText(student.getString("roll_no"));
                 mResources = getResources();
