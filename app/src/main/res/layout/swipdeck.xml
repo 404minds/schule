@@ -24,7 +24,6 @@
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal">
             <ImageView
-                android:src="@drawable/blank_girl"
                 android:id="@+id/offer_image"
                 android:layout_width="160dp"
                 android:scaleType="centerCrop"

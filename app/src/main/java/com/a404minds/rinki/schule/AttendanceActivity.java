@@ -4,20 +4,29 @@ import com.daprlabs.aaron.swipedeck.SwipeDeck;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,8 +34,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class AttendanceActivity extends AppCompatActivity {
@@ -35,9 +42,9 @@ public class AttendanceActivity extends AppCompatActivity {
     private SwipeDeck cardStack;
     private Context context = this;
     private SwipeDeckAdapter adapter;
-    private ArrayList<String> testData;
-    private CheckBox dragCheckbox;
     public Toolbar attendanceToolbar;
+    public Bitmap mBitmap;
+    public Resources mResources;
 
 
     @Override
@@ -52,7 +59,7 @@ public class AttendanceActivity extends AppCompatActivity {
             window.setStatusBarColor(ContextCompat.getColor(AttendanceActivity.this, R.color.colorStatusBar));
         }
         setContentView(R.layout.attendance_layout);
-        attendanceToolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        attendanceToolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(attendanceToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String classid= getIntent().getStringExtra("EXTRA_SESSION_ID");
@@ -104,6 +111,20 @@ public class AttendanceActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                Intent intent = new Intent(this, StudentListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void markAttendance(String student, int presence) {
@@ -162,11 +183,11 @@ public class AttendanceActivity extends AppCompatActivity {
                 // normally use a viewholder
                 v = inflater.inflate(R.layout.swipdeck, parent, false);
             }
-            //((TextView) v.findViewById(R.id.textView2)).setText(data.get(position));
             JSONObject student = null;
             TextView studentName;
             TextView studentRollNo;
             ImageView imageView;
+
 
             try {
                 JSONObject classStudent = data.getJSONObject(position);
@@ -177,21 +198,21 @@ public class AttendanceActivity extends AppCompatActivity {
                 imageView.setBackgroundResource(R.drawable.circular_image);
                 studentName.setText(student.getString("name"));
                 studentRollNo.setText(student.getString("roll_no"));
+                mResources = getResources();
+                mBitmap = BitmapFactory.decodeResource(mResources,R.drawable.blank_girl);
+
+                imageView.setImageBitmap(mBitmap);
+                RoundedBitmapDrawable roundedImageDrawable = createRoundedBitmapImageDrawableWithBorder(mBitmap);
+                imageView.setImageDrawable(roundedImageDrawable);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            final JSONObject finalStudent = student;
             Button btnAbsent = (Button) v.findViewById(R.id.button_absent);
             btnAbsent.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     // Do something in response to button click
                     cardStack.swipeTopCardLeft(500);
-//                    try {
-//                        markAttendance(finalStudent.getString("_id").toString(), 2);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
                 }
             });
 
@@ -200,11 +221,6 @@ public class AttendanceActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     // Do something in response to button click
                     cardStack.swipeTopCardRight(500);
-//                    try {
-//                        markAttendance(finalStudent.getString("_id").toString(), 1);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
                 }
             });
 
@@ -213,11 +229,43 @@ public class AttendanceActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Log.i("Layer type: ", Integer.toString(v.getLayerType()));
                     Log.i("Hardware Accel type:", Integer.toString(View.LAYER_TYPE_HARDWARE));
-                    /*Intent i = new Intent(v.getContext(), BlankActivity.class);
-                    v.getContext().startActivity(i);*/
                 }
             });
             return v;
+
         }
+
+
+
+
+    }
+
+    private RoundedBitmapDrawable createRoundedBitmapImageDrawableWithBorder(Bitmap bitmap){
+        int bitmapWidthImage = bitmap.getWidth();
+        int bitmapHeightImage = bitmap.getHeight();
+        int borderWidthHalfImage = 4;
+
+        int bitmapRadiusImage = Math.min(bitmapWidthImage,bitmapHeightImage)/2;
+        int bitmapSquareWidthImage = Math.min(bitmapWidthImage,bitmapHeightImage);
+        int newBitmapSquareWidthImage = bitmapSquareWidthImage+borderWidthHalfImage;
+
+        Bitmap roundedImageBitmap = Bitmap.createBitmap(newBitmapSquareWidthImage,newBitmapSquareWidthImage,Bitmap.Config.ARGB_8888);
+        Canvas mcanvas = new Canvas(roundedImageBitmap);
+        mcanvas.drawColor(Color.TRANSPARENT);
+        int i = borderWidthHalfImage + bitmapSquareWidthImage - bitmapWidthImage;
+        int j = borderWidthHalfImage + bitmapSquareWidthImage - bitmapHeightImage;
+
+        mcanvas.drawBitmap(bitmap, i, j, null);
+
+        Paint borderImagePaint = new Paint();
+        borderImagePaint.setStyle(Paint.Style.STROKE);
+        borderImagePaint.setStrokeWidth(borderWidthHalfImage*2);
+        borderImagePaint.setColor(Color.TRANSPARENT);
+        mcanvas.drawCircle(mcanvas.getWidth()/2, mcanvas.getWidth()/2, newBitmapSquareWidthImage/2, borderImagePaint);
+
+        RoundedBitmapDrawable roundedImageBitmapDrawable = RoundedBitmapDrawableFactory.create(mResources,roundedImageBitmap);
+        roundedImageBitmapDrawable.setCornerRadius(bitmapRadiusImage);
+        roundedImageBitmapDrawable.setAntiAlias(true);
+        return roundedImageBitmapDrawable;
     }
 }
