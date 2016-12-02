@@ -6,7 +6,8 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="hello"
+        android:title="Logout"
+        android:background="@color/colorPrimary"
         app:showAsAction="never" />
     <!--<item-->
         <!--android:id="@+id/action_search"-->

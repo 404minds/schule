@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,6 +69,7 @@ public class AttendanceActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String classid= getIntent().getStringExtra("EXTRA_SESSION_ID");
         String responseStr = null;
+
         try {
             responseStr = new NetworkingGet(AttendanceActivity.this).execute("/classes/"+classid.toString()+"/students").get();
             JSONObject responseData = new JSONObject(responseStr);
@@ -115,6 +118,15 @@ public class AttendanceActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.attendance_menu, menu);
+        return true;
     }
 
     @Override
@@ -125,6 +137,16 @@ public class AttendanceActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, StudentListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                return true;
+            case R.id.action_undo:
+                Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
+                        .show();
+                cardStack.unSwipeCard();
+                return true;
+            // action with ID action_settings was selected
+            case R.id.action_settings:
+                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+                        .show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
