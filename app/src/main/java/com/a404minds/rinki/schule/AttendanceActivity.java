@@ -37,20 +37,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 public class AttendanceActivity extends AppCompatActivity {
 
-    private static final String TAG = "AttendanceActivity";
     private SwipeDeck cardStack;
-    private Context context = this;
     private SwipeDeckAdapter adapter;
     public Toolbar attendanceToolbar;
     public Bitmap mBitmap;
     public Resources mResources;
     public LinearLayout completeAttendance;
     public Integer counter = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,12 +154,20 @@ public class AttendanceActivity extends AppCompatActivity {
     }
 
     public void markAttendance(String student, int presence) {
+        DatabaseHandler db;
         JSONObject studentAttendance = new JSONObject();
         String responseStr = null;
         try {
+            db = new DatabaseHandler(AttendanceActivity.this);
+
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            Date d = new Date();
+
+            db.addAttendance(new Attendance(student, presence, df.format(d)));
+
             studentAttendance.put("student", student);
             studentAttendance.put("status", presence);
-            responseStr = new NetworkingPost().execute("/attendence", studentAttendance.toString()).get();
+            responseStr = new NetworkingPost().execute("/attendance", studentAttendance.toString()).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
