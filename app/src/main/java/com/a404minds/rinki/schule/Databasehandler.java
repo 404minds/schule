@@ -21,7 +21,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "schule";
 
     // Contacts table name
-    private static final String TABLE_ATTENDANCE = "attendance";
+    private static final String TABLE_ATTENDANCE = "attendance2";
 
     // Contacts Table Columns names
     private static final String STUDENT_ID = "id";
@@ -36,7 +36,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String CREATE_ATTENDANCE_TABLE = "CREATE TABLE " + TABLE_ATTENDANCE + "("
-                + STUDENT_ID + " INTEGER PRIMARY KEY," + STUDENT_STATUS + " TEXT,"
+                + STUDENT_ID + " TEXT PRIMARY KEY," + STUDENT_STATUS + " INTEGER,"
                 + DATE + " TEXT" + ")";
         sqLiteDatabase.execSQL(CREATE_ATTENDANCE_TABLE);
     }
@@ -51,6 +51,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     void addAttendance(Attendance attendance) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(STUDENT_ID, attendance.getID()); // student id
         values.put(STUDENT_STATUS, attendance.getStatus()); // attendance status
         values.put(DATE, attendance.getDate()); // attendance date
 
@@ -59,7 +60,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    // Getting All Studence Attendance
+    // Getting All Students' Attendance
     public List<Attendance> getAllStudentsAttendance() {
         List<Attendance> attendanceList = new ArrayList<Attendance>();
         // Select All Query

@@ -15,7 +15,7 @@ public class Attendance {
 
     }
     // constructor
-    public Attendance(String id, int status, String _date){
+    public Attendance(String id, int status, String _date) {
         this._id = id;
         this._status = status;
         this._date = _date;
@@ -37,8 +37,8 @@ public class Attendance {
     }
 
     // setting status
-    public void setStatus(int name){
-        this._status = name;
+    public void setStatus(int status){
+        this._status = status;
     }
 
     // getting date

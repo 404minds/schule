@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity{
                     e.printStackTrace();
                 }
                 try {
-                    String responseStr = new NetworkingPost().execute("/token", creds.toString()).get();
+                    String responseStr = new NetworkingPost(LoginActivity.this).execute("/token", creds.toString()).get();
 
                     JSONObject responseData = new JSONObject(responseStr);
 

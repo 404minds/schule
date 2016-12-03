@@ -23,6 +23,12 @@ import org.json.JSONObject;
  * Created by rinki on 12/11/16.
  */
 public class NetworkingPost extends AsyncTask<String, Integer, String> {
+    private Context context;
+
+    public NetworkingPost(Context context) {
+        this.context = context;
+    }
+
     @Override
     protected String doInBackground(String... data) {
         // These two need to be declared outside the try/catch
@@ -36,13 +42,14 @@ public class NetworkingPost extends AsyncTask<String, Integer, String> {
             // Construct the URL
             URL url = new URL("http://schule-dev.herokuapp.com/api" + data[0]);
 
+            SharedPrefs sharedPrefs = new SharedPrefs(this.context);
+            String token = sharedPrefs.getPrefs("Auth_file", "token");
+
             // Create the request to API, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("POST");
-            //urlConnection.setConnectTimeout(15000);
+            urlConnection.setRequestProperty("Authorization", "Bearer " + token);
             urlConnection.connect();
-            //urlConnection.setDoInput(true);
-            //urlConnection.setDoOutput(true);
 
             JSONObject postData = new JSONObject(data[1]);
 

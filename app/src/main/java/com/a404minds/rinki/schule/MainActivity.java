@@ -13,6 +13,9 @@ public class MainActivity extends AppCompatActivity {
         //getSupportActionBar().hide();
         Intent i = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(i);
+
+        Intent mServiceIntent = new Intent(MainActivity.this, AttendanceService.class);
+        startService(mServiceIntent);
 //        first_time_check();
     }
 //

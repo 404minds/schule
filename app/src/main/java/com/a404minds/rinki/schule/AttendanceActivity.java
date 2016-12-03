@@ -167,7 +167,7 @@ public class AttendanceActivity extends AppCompatActivity {
 
             studentAttendance.put("student", student);
             studentAttendance.put("status", presence);
-            responseStr = new NetworkingPost().execute("/attendance", studentAttendance.toString()).get();
+            new NetworkingPost(AttendanceActivity.this).execute("/attendance", studentAttendance.toString()).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -175,7 +175,6 @@ public class AttendanceActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("responseData", responseStr);
     }
 
     public class SwipeDeckAdapter extends BaseAdapter {
@@ -246,7 +245,7 @@ public class AttendanceActivity extends AppCompatActivity {
             btnAbsent.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     // Do something in response to button click
-                    cardStack.swipeTopCardLeft(500);
+                    cardStack.swipeTopCardLeft(10);
                 }
             });
 
@@ -254,7 +253,7 @@ public class AttendanceActivity extends AppCompatActivity {
             btnPresent.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     // Do something in response to button click
-                    cardStack.swipeTopCardRight(500);
+                    cardStack.swipeTopCardRight(10);
                 }
             });
 
